@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LZRAY·主站 | Hub</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <meta name="description" content="lzray.com 主站导航：Bulls & Cows、Translate100、Chat AI、WordMorph、Online24 等分站入口。" />
+  
+<link rel="stylesheet" href="/fonts/style.css">
+<style>
+    
+    
+    :root{
+      --bg:#05070f;
+      --bg-image:url('/assets/background/Dark-1920x1920-hq.jpg');
+      --bg-gradient:linear-gradient(150deg, rgba(5,12,28,.58), rgba(5,12,20,.32));
+      --text:#e8ecf3;
+      --muted:#a7b0c3;
+      --accent:#8dbbff;
+      --accent-2:#7bf1a8;
+      --ring:rgba(141,187,255,.35);
+      --shadow:0 32px 80px rgba(5,10,25,.55);
+      --glass-bg:rgba(10,16,30,.16);
+      --glass-border:rgba(255,255,255,.18);
+      --glass-highlight:rgba(255,255,255,.06);
+      --glass-blur:26px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f4f7ff;
+        --bg-image:url('/assets/background/Light-1920x1920-hq.jpg');
+        --bg-gradient:linear-gradient(150deg, rgba(244,247,255,.76), rgba(210,222,255,.56));
+        --text:#0b1020;
+        --muted:#5b6475;
+        --accent:#3e7dff;
+        --accent-2:#16d69b;
+        --ring:rgba(62,125,255,.22);
+        --shadow:0 32px 70px rgba(60,92,160,.24);
+        --glass-bg:rgba(255,255,255,.22);
+        --glass-border:rgba(160,185,255,.24);
+        --glass-highlight:rgba(255,255,255,.08);
+        --glass-blur:24px;
+      }
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font:16px/1.6 "LXGW WenKai",system-ui,-apple-system,Segoe UI,Roboto,"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC",Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background-color:var(--bg);
+      background-image:var(--bg-gradient);
+      background-repeat:no-repeat;
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background-image:var(--bg-image);
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      transform:translateZ(0);
+    }
+    main.snap-container{
+      height:100vh;
+      height:100svh;
+      overflow-y:auto;
+      scroll-snap-type:y mandatory;
+      scroll-padding-top:0;
+      scroll-behavior:smooth;
+    }
+    .language-switcher{
+      position:fixed;
+      top:calc(16px + env(safe-area-inset-top, 0px));
+      left:calc(16px + env(safe-area-inset-left, 0px));
+      z-index:20;
+      transition:opacity .3s ease, transform .3s ease;
+    }
+    .language-switcher.is-hidden{
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(-12px);
+    }
+    .language-switcher .language-button{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 16px;
+      border-radius:999px;
+      background:color-mix(in srgb, var(--glass-bg) 40%, transparent);
+      border:1px solid var(--glass-border);
+      color:var(--text);
+      font-size:14px;
+      line-height:1;
+      cursor:pointer;
+      backdrop-filter:blur(calc(var(--glass-blur)*.6));
+      transition:background .2s ease, transform .2s ease;
+    }
+    .language-switcher .language-button:focus-visible{
+      outline:3px solid var(--accent);
+      outline-offset:2px;
+    }
+    .language-switcher .language-button:hover{
+      background:color-mix(in srgb, var(--glass-bg) 60%, transparent);
+      transform:translateY(-1px);
+    }
+    .language-switcher .language-menu{
+      margin:8px 0 0;
+      padding:6px;
+      list-style:none;
+      background:color-mix(in srgb, var(--glass-bg) 75%, transparent);
+      border:1px solid var(--glass-border);
+      border-radius:14px;
+      backdrop-filter:blur(calc(var(--glass-blur)*.8));
+      display:none;
+      gap:4px;
+      min-width:140px;
+      box-shadow:var(--shadow);
+    }
+    .language-switcher[data-open="true"] .language-menu{
+      display:grid;
+    }
+    .language-switcher .language-menu button{
+      width:100%;
+      padding:8px 12px;
+      border-radius:10px;
+      border:none;
+      background:transparent;
+      color:var(--text);
+      font:inherit;
+      cursor:pointer;
+      text-align:left;
+      transition:background .2s ease;
+    }
+    .language-switcher .language-menu button[aria-current="true"]{
+      background:color-mix(in srgb, var(--glass-bg) 85%, transparent);
+      font-weight:600;
+    }
+    .language-switcher .language-menu button:hover,
+    .language-switcher .language-menu button:focus-visible{
+      background:color-mix(in srgb, var(--glass-bg) 80%, transparent);
+      outline:none;
+    }
+    .panel{
+      position:relative;
+      min-height:100vh;
+      min-height:100svh;
+      padding:clamp(64px,8vw,120px) clamp(20px,8vw,80px);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:clamp(18px,4vw,28px);
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+    }
+    .panel-content{
+      width:min(1100px,100%);
+      margin:0 auto;
+    }
+    body.io-ready .panel:not(.hero){
+      opacity:0;
+      transform:translateY(5vh);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    body.io-ready .panel.in-view{
+      opacity:1;
+      transform:translateY(0);
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-10% -20%;
+      pointer-events:none;
+      background:var(--bg-gradient);
+      filter:blur(140px) saturate(115%);
+      transform:scale(1.08);
+      opacity:.68;
+      z-index:-1;
+    }
+    .hero{
+      position:relative;
+      min-height:100vh;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:clamp(64px,8vw,120px) clamp(20px,8vw,80px);
+      overflow:hidden;
+      isolation:isolate;
+      background:color-mix(in srgb, var(--glass-bg) 32%, transparent);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(var(--glass-blur));
+      box-shadow:var(--shadow);
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(140deg, var(--glass-highlight), transparent 70%);
+      opacity:.5;
+      pointer-events:none;
+    }
+    .hero-content{
+      max-width:min(760px, 100%);
+      display:grid;
+      gap:clamp(16px,4vw,28px);
+      align-items:center;
+    }
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 16px;
+      border-radius:999px;
+      background:color-mix(in srgb, var(--glass-bg) 22%, transparent);
+      border:1px solid var(--glass-border);
+      color:var(--muted);
+      font-size:14px;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      justify-content:center;
+      backdrop-filter:blur(calc(var(--glass-blur) * .6));
+    }
+    .hero-title{
+      font-size:clamp(40px,8vw,64px);
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.5px;
+      margin:0;
+    }
+    .hero-desc{
+      margin:0 auto;
+      color:var(--muted);
+      font-size:clamp(16px,2.4vw,20px);
+      max-width:52ch;
+    }
+    .hero-actions{
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .hero-button{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 22px;
+      border-radius:16px;
+      font-size:16px;
+      text-decoration:none;
+      color:var(--text);
+      background:color-mix(in srgb, var(--glass-bg) 55%, transparent);
+      border:1px solid var(--glass-border);
+      box-shadow:0 18px 38px rgba(5,10,25,.35);
+      backdrop-filter:blur(calc(var(--glass-blur) * .6));
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .hero-button:hover,
+    .hero-button:focus{
+      transform:translateY(-3px);
+      box-shadow:0 24px 44px rgba(12, 56, 120, .45);
+      border-color:var(--accent);
+      background:var(--glass-highlight);
+      outline:none;
+    }
+    .hero-secondary{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 22px;
+      border-radius:16px;
+      font-size:16px;
+      text-decoration:none;
+      color:var(--muted);
+      border:1px solid var(--glass-border);
+      background:color-mix(in srgb, var(--glass-bg) 18%, transparent);
+      backdrop-filter:blur(calc(var(--glass-blur) * .6));
+      transition:background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+    .hero-secondary:hover,
+    .hero-secondary:focus{
+      transform:translateY(-3px);
+      background:var(--glass-highlight);
+      border-color:var(--accent);
+      color:var(--text);
+      outline:none;
+    }
+    .scroll-indicator{
+      position:absolute;
+      right:clamp(20px,6vw,40px);
+      bottom:36px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      color:color-mix(in srgb, var(--text) 70%, transparent);
+      text-align:center;
+    }
+    .scroll-indicator span{
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .scroll-indicator button{
+      appearance:none;
+      border:1px solid var(--glass-border);
+      background:color-mix(in srgb, var(--glass-bg) 20%, transparent);
+      backdrop-filter:blur(calc(var(--glass-blur) * .5));
+      border-radius:999px;
+      width:48px;
+      height:48px;
+      display:grid;
+      place-items:center;
+      color:inherit;
+      cursor:pointer;
+      transition:transform .3s ease, border-color .3s ease, background .3s ease;
+      animation:bounce 2.4s ease-in-out infinite;
+    }
+    .scroll-indicator button:hover,
+    .scroll-indicator button:focus-visible{
+      outline:none;
+      background:var(--glass-highlight);
+      border-color:var(--accent);
+      transform:translateY(-2px);
+    }
+    .scroll-indicator svg{width:20px;height:20px;}
+    @keyframes bounce{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(6px);}
+    }
+    .surface{
+      background:color-mix(in srgb, var(--glass-bg) 26%, transparent);
+      border:1px solid var(--glass-border);
+      border-radius:32px;
+      padding:clamp(24px,4vw,40px);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .surface::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(160deg, var(--glass-highlight), transparent 65%);
+      opacity:.45;
+      pointer-events:none;
+    }
+    .intro .panel-content{
+      display:flex;
+      flex-direction:column;
+      gap:clamp(18px,4vw,26px);
+    }
+    .hub-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:clamp(12px,3vw,32px);
+      flex-wrap:wrap;
+    }
+    .brand{display:flex;align-items:center;gap:16px;flex:1 1 auto;min-width:220px;}
+    .logo{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      background:color-mix(in srgb, var(--glass-bg) 24%, transparent);
+      border:1px solid var(--glass-border);
+      box-shadow:0 18px 40px rgba(5,10,30,.45);
+      backdrop-filter:blur(calc(var(--glass-blur) * .8));
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      font-weight:900;
+      letter-spacing:.5px;
+      position:relative;
+      overflow:hidden;
+      animation:pulse 6s ease-in-out infinite;
+    }
+    .logo::after{
+      content:"";
+      position:absolute;
+      inset:-40% 30% auto -40%;
+      height:140%;
+      background:linear-gradient(120deg,var(--glass-highlight),transparent 55%);
+      transform:rotate(12deg);
+      animation:shine 4s ease-in-out infinite;
+      opacity:.45;
+    }
+    @keyframes pulse{
+      0%,100%{transform:translateY(0) scale(1);}
+      50%{transform:translateY(-3px) scale(1.05);}
+    }
+    @keyframes shine{
+      0%{transform:translateX(-140%) rotate(12deg);}
+      100%{transform:translateX(160%) rotate(12deg);}
+    }
+    h1{margin:0;font-size:clamp(20px,3vw,28px);font-weight:700;letter-spacing:.3px;}
+    .desc{color:var(--muted);font-size:clamp(13px,2vw,15px);margin:6px 0 0;max-width:520px;}
+    .hub-links{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .hub-links .muted-link{
+      padding:8px 12px;
+      border-radius:12px;
+      border:1px solid transparent;
+      background:color-mix(in srgb, var(--glass-bg) 18%, transparent);
+      backdrop-filter:blur(calc(var(--glass-blur) * .4));
+      transition:border-color .3s ease,background .3s ease,transform .3s ease;
+    }
+    .hub-links .muted-link:focus,
+    .hub-links .muted-link:hover{
+      border-color:var(--glass-border);
+      background:var(--glass-highlight);
+      transform:translateY(-1px);
+    }
+    .intro .surface{display:flex;flex-direction:column;gap:clamp(18px,3vw,26px);}
+    .section-head{display:flex;flex-direction:column;gap:12px;margin-bottom:clamp(18px,3vw,26px);}
+    .section-title{margin:0;font-size:clamp(24px,3.6vw,32px);font-weight:700;letter-spacing:.2px;}
+    .section-desc{margin:0;color:var(--muted);max-width:60ch;}
+    .projects .surface{display:flex;flex-direction:column;gap:clamp(18px,4vw,32px);}
+    .outro .surface{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:clamp(16px,3vw,24px);}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(1,minmax(0,1fr));
+      gap:clamp(16px,3vw,22px);
+      margin-top:clamp(12px,3vw,22px);
+    }
+    @media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media (min-width:980px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+    .card{
+      background:color-mix(in srgb, var(--glass-bg) 22%, transparent);
+      border-radius:22px;
+      padding:clamp(18px,3vw,22px);
+      position:relative;
+      overflow:hidden;
+      border:1px solid var(--glass-border);
+      box-shadow:0 18px 40px rgba(5,10,25,.35);
+      backdrop-filter:blur(calc(var(--glass-blur) * .85));
+      transition:transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s ease, border-color .3s ease;
+    }
+    body.io-ready .card{
+      opacity:0;
+      transform:translateY(16px) scale(.98);
+      animation:card-in .65s ease forwards;
+      animation-delay:calc(var(--index,0) * 90ms + 80ms);
+      animation-play-state:paused;
+    }
+    body.io-ready .panel.in-view .card{animation-play-state:running;}
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-40% -20% auto;
+      height:60%;
+      background:linear-gradient(120deg,var(--glass-highlight),transparent 60%);
+      opacity:0;
+      transition:opacity .4s ease,transform .4s ease;
+      transform:translateY(25px);
+    }
+    .card:hover{
+      transform:translateY(-6px) scale(1.01);
+      box-shadow:0 24px 50px rgba(7,15,40,.45);
+      border-color:var(--accent);
+    }
+    .card:hover::before{opacity:1;transform:translateY(0);}
+    .tag{
+      font-size:12px;
+      color:var(--accent);
+      background:color-mix(in srgb, var(--glass-highlight) 55%, transparent);
+      padding:3px 10px;
+      border-radius:999px;
+      display:inline-block;
+      backdrop-filter:blur(calc(var(--glass-blur) * .3));
+    }
+    .title{margin:12px 0 4px;font-size:18px;font-weight:700;letter-spacing:.2px;}
+    .text{margin:0;color:var(--muted);font-size:14px;min-height:40px;}
+    .go{
+      margin-top:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--text);
+      border:1px solid var(--glass-border);
+      background:color-mix(in srgb, var(--glass-bg) 18%, transparent);
+      backdrop-filter:blur(calc(var(--glass-blur) * .5));
+      transition:border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+    }
+    .go:focus,
+    .go:hover{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 9px var(--ring) inset;
+      transform:translateY(-1px);
+    }
+    footer{margin-top:clamp(24px,4vw,32px);color:var(--muted);font-size:12px;text-align:center;}
+    .muted-link{color:var(--muted);text-decoration:none;}
+    @keyframes card-in{
+      0%{opacity:0;transform:translateY(16px) scale(.98);}
+      60%{opacity:1;transform:translateY(-4px) scale(1.005);}
+      100%{opacity:1;transform:translateY(0) scale(1);}
+    }
+    @media (max-width:900px){
+      .hero{padding:clamp(80px,14vw,140px) clamp(18px,8vw,48px);}
+      .panel{padding:clamp(72px,16vw,120px) clamp(18px,8vw,48px);}
+    }
+    @media (max-width:768px){
+      .surface{padding:clamp(20px,6vw,28px);}
+      .hub-header{flex-direction:column;align-items:flex-start;}
+      .hub-links{width:100%;justify-content:flex-start;}
+      .scroll-indicator{right:auto;left:50%;bottom:28px;transform:translateX(-50%);}
+    }
+    @media (max-width:520px){
+      .hero-title{font-size:clamp(32px,12vw,44px);}
+      .hero-actions{flex-direction:column;}
+      .logo{width:48px;height:48px;border-radius:14px;}
+      .desc{max-width:none;}
+      .card{border-radius:20px;}
+    }
+    @media (prefers-reduced-motion: reduce){
+      html:focus-within{scroll-behavior:auto;}
+      body,main.snap-container{scroll-behavior:auto;}
+      body::before,body::after,.hero::before,.logo,.logo::after,.scroll-indicator button{
+        animation-duration:0.01ms !important;
+        animation-iteration-count:1 !important;
+      }
+      body.io-ready .panel:not(.hero){opacity:1;transform:none;transition:none;}
+      body.io-ready .card{opacity:1;transform:none;animation:none;}
+    }
+  </style>
+
+<style>html, body { font-family: "LXGW WenKai", system-ui, -apple-system, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif; }</style>
+</head>
+<body>
+  <div class="language-switcher" data-language-switcher>
+    <button type="button" class="language-button" data-language-button aria-haspopup="true" aria-expanded="false">
+      🌐 <span data-language-label>中文</span>
+    </button>
+    <ul class="language-menu" data-language-menu hidden>
+      <li><button type="button" data-language-option="zh">中文</button></li>
+      <li><button type="button" data-language-option="en">English</button></li>
+      <li><button type="button" data-language-option="ja">日本語</button></li>
+    </ul>
+  </div>
+
+  <main class="snap-container">
+    <section class="panel hero" data-panel>
+      <div class="hero-content">
+        <span class="hero-badge">LZRAY · DIGITAL HUB</span>
+        <h1 class="hero-title" data-i18n="hero.title">让灵感自由流动</h1>
+        <p class="hero-desc" data-i18n="hero.desc">一站式集结 LZRAY 的实验项目与独立工具。流畅、轻盈、深浅色自适应，探索更多有趣的创意灵感。</p>
+        <div class="hero-actions">
+          <a class="hero-button" href="#hub" data-i18n="hero.primary">立即探索 →</a>
+          <a class="hero-secondary" href="https://www.lzray.com/" rel="noopener" data-i18n="hero.secondary">访问官网</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <button type="button" aria-label="滚动到下一屏" data-scroll-next data-i18n-aria-label="controls.scrollNext">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 9l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <span aria-hidden="true" data-i18n="controls.scrollHint">下滑探索</span>
+      </div>
+    </section>
+
+    <section id="hub" class="panel intro" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <div class="hub-header">
+            <div class="brand">
+              <div class="logo">LZ</div>
+              <div>
+                <h2 class="section-title" data-i18n="hub.title">LZRAY 主站 · Hub</h2>
+                <p class="desc" data-i18n-template="hub.desc">集中入口 · 轻量快速 · 支持深浅色 · 最后更新：<span data-date></span></p>
+              </div>
+            </div>
+            <nav class="hub-links" aria-label="站点链接" data-i18n-aria-label="hub.linksLabel">
+              <a class="muted-link" href="https://www.lzray.com/">lzray.com</a>
+            </nav>
+          </div>
+          <p class="section-desc" data-i18n="hub.sectionDesc">将实验性的产品、创意工具以及独立项目统一收纳在此，保持一致的体验与更新节奏，方便你在不同灵感之间无缝切换。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel projects" id="projects" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <div class="section-head">
+            <h2 class="section-title" data-i18n="projects.title">实验分站一览</h2>
+            <p class="section-desc" data-i18n="projects.desc">涵盖 AI 体验、语言游戏到算法挑战的多元作品，持续迭代、即时可用。</p>
+          </div>
+          <div class="grid">
+            <article class="card" style="--index:0;">
+              <span class="tag" data-i18n="projects.cards.translate.tag">🧠 AI / 工具</span>
+              <h3 class="title">Translate100</h3>
+              <p class="text" data-i18n="projects.cards.translate.text">鬼畜英文：谷歌翻译100次。</p>
+              <a class="go" href="https://translate100.lzray.com" rel="noopener" data-i18n="projects.cards.translate.link">进入 translate100.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:1;">
+              <span class="tag" data-i18n="projects.cards.chat.tag">🤖 对话</span>
+              <h3 class="title">Chat AI</h3>
+              <p class="text" data-i18n="projects.cards.chat.text">OpenRouter / Chat 接入的演示与实验。</p>
+              <a class="go" href="https://chatai.lzray.com" rel="noopener" data-i18n="projects.cards.chat.link">进入 chatai.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:2;">
+              <span class="tag" data-i18n="projects.cards.wordmorph.tag">🔤 文字游戏</span>
+              <h3 class="title">WordMorph</h3>
+              <p class="text" data-i18n="projects.cards.wordmorph.text">英文词阶变形小游戏。</p>
+              <a class="go" href="https://wordmorph.lzray.com" rel="noopener" data-i18n="projects.cards.wordmorph.link">进入 wordmorph.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:3;">
+              <span class="tag" data-i18n="projects.cards.bullsc.tag">🎯 数独类</span>
+              <h3 class="title">Bulls & Cows</h3>
+              <p class="text" data-i18n="projects.cards.bullsc.text">猜数字最优解决工具。</p>
+              <a class="go" href="https://bullsc.lzray.com" rel="noopener" data-i18n="projects.cards.bullsc.link">进入 bullsc.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:4;">
+              <span class="tag" data-i18n="projects.cards.online24.tag">🃏 算法游戏</span>
+              <h3 class="title">Online 24</h3>
+              <p class="text" data-i18n="projects.cards.online24.text">在线 24 点对战/难度分级实验。</p>
+              <a class="go" href="https://online24.lzray.com" rel="noopener" data-i18n="projects.cards.online24.link">进入 online24.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:6;">
+              <span class="tag" data-i18n="projects.cards.blog.tag">🤝 友链</span>
+              <h3 class="title">XeRnHe 的博客</h3>
+              <p class="text" data-i18n="projects.cards.blog.text">分享开发心得与创意灵感的个人博客。</p>
+              <a class="go" href="https://blog.xernhe.com" rel="noopener" data-i18n="projects.cards.blog.link">访问 blog.xernhe.com →</a>
+            </article>
+
+            <article class="card" style="--index:5;">
+              <span class="tag" data-i18n="projects.cards.more.tag">📬 其他</span>
+              <h3 class="title">更多</h3>
+              <p class="text" data-i18n="projects.cards.more.text">将来这里还可以挂友链、项目文档、RSS等。</p>
+              <a class="go" href="#" data-planned-link data-i18n="projects.cards.more.link">规划中…</a>
+            </article>
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel outro" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <h2 class="section-title" data-i18n="outro.title">保持同步</h2>
+          <p class="section-desc" data-i18n="outro.desc">新灵感上线、老项目升级都会第一时间在 Hub 中呈现。收藏页面或订阅 RSS，随时获取最新动态。</p>
+          <footer>
+            <div>© <span id="y"></span> LZRAY · <a class="muted-link" href="https://github.com/">GitHub</a> · <a class="muted-link" href="https://vercel.com/">Vercel</a></div>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      const sizes=[1280,1920,2560,3840];
+      const basePath='/assets/background/';
+      const mediaQuery=window.matchMedia('(prefers-color-scheme: dark)');
+
+      const pickSize=()=>{
+        const dpr=window.devicePixelRatio||1;
+        const width=Math.max(window.innerWidth||0, window.screen&&window.screen.width||0);
+        const height=Math.max(window.innerHeight||0, window.screen&&window.screen.height||0);
+        const target=Math.max(width,height)*dpr;
+        for(const size of sizes){
+          if(target<=size){
+            return size;
+          }
+        }
+        return sizes[sizes.length-1];
+      };
+
+      let currentUrl='';
+
+      const applyBackground=()=>{
+        const size=pickSize();
+        const mode=mediaQuery.matches?'Dark':'Light';
+        const url=`${basePath}${mode}-${size}x${size}-hq.jpg`;
+        if(url!==currentUrl){
+          document.documentElement.style.setProperty('--bg-image', `url('${url}')`);
+          currentUrl=url;
+        }
+      };
+
+      let resizeTimer;
+      const handleResize=()=>{
+        clearTimeout(resizeTimer);
+        resizeTimer=window.setTimeout(applyBackground, 150);
+      };
+
+      applyBackground();
+
+      if(typeof mediaQuery.addEventListener==='function'){
+        mediaQuery.addEventListener('change', applyBackground);
+      }else if(typeof mediaQuery.addListener==='function'){
+        mediaQuery.addListener(applyBackground);
+      }
+
+      window.addEventListener('resize', handleResize);
+    })();
+  </script>
+  <script>
+    const languages=['zh','en','ja'];
+    const translations={
+      zh:{
+        'hero.title':'让灵感自由流动',
+        'hero.desc':'一站式集结 LZRAY 的实验项目与独立工具。流畅、轻盈、深浅色自适应，探索更多有趣的创意灵感。',
+        'hero.primary':'立即探索 →',
+        'hero.secondary':'访问官网',
+        'controls.scrollNext':'滚动到下一屏',
+        'controls.scrollHint':'下滑探索',
+        'hub.title':'LZRAY 主站 · Hub',
+        'hub.desc':'集中入口 · 轻量快速 · 支持深浅色 · 最后更新：<span data-date></span>',
+        'hub.sectionDesc':'将实验性的产品、创意工具以及独立项目统一收纳在此，保持一致的体验与更新节奏，方便你在不同灵感之间无缝切换。',
+        'hub.linksLabel':'站点链接',
+        'projects.title':'实验分站一览',
+        'projects.desc':'涵盖 AI 体验、语言游戏到算法挑战的多元作品，持续迭代、即时可用。',
+        'projects.cards.translate.tag':'🧠 AI / 工具',
+        'projects.cards.translate.text':'鬼畜英文：谷歌翻译100次。',
+        'projects.cards.translate.link':'进入 translate100.lzray.com →',
+        'projects.cards.chat.tag':'🤖 对话',
+        'projects.cards.chat.text':'OpenRouter / Chat 接入的演示与实验。',
+        'projects.cards.chat.link':'进入 chatai.lzray.com →',
+        'projects.cards.wordmorph.tag':'🔤 文字游戏',
+        'projects.cards.wordmorph.text':'英文词阶变形小游戏。',
+        'projects.cards.wordmorph.link':'进入 wordmorph.lzray.com →',
+        'projects.cards.bullsc.tag':'🎯 数独类',
+        'projects.cards.bullsc.text':'猜数字最优解决工具。',
+        'projects.cards.bullsc.link':'进入 bullsc.lzray.com →',
+        'projects.cards.online24.tag':'🃏 算法游戏',
+        'projects.cards.online24.text':'在线 24 点对战/难度分级实验。',
+        'projects.cards.online24.link':'进入 online24.lzray.com →',
+        'projects.cards.blog.tag':'🤝 友链',
+        'projects.cards.blog.text':'分享开发心得与创意灵感的个人博客。',
+        'projects.cards.blog.link':'访问 blog.xernhe.com →',
+        'projects.cards.more.tag':'📬 其他',
+        'projects.cards.more.text':'将来这里还可以挂友链、项目文档、RSS等。',
+        'projects.cards.more.link':'规划中…',
+        'outro.title':'保持同步',
+        'outro.desc':'新灵感上线、老项目升级都会第一时间在 Hub 中呈现。收藏页面或订阅 RSS，随时获取最新动态。',
+        'alerts.comingSoon':'敬请期待',
+        'language.menuLabel':'切换语言'
+      },
+      en:{
+        'hero.title':'Let ideas flow freely',
+        'hero.desc':'Collect every experimental project and independent tool from LZRAY in one hub. Smooth, lightweight, and theme-aware for endless inspiration.',
+        'hero.primary':'Explore now →',
+        'hero.secondary':'Visit website',
+        'controls.scrollNext':'Scroll to next section',
+        'controls.scrollHint':'Scroll to explore',
+        'hub.title':'LZRAY Main Hub',
+        'hub.desc':'Unified entry · Fast and lightweight · Dark & light ready · Last updated: <span data-date></span>',
+        'hub.sectionDesc':'Store experimental products, creative tools, and independent projects together for a consistent experience and rhythm, making it effortless to switch between sparks of inspiration.',
+        'hub.linksLabel':'Site links',
+        'projects.title':'Explore the experiments',
+        'projects.desc':'From AI experiences and word games to algorithmic challenges—always iterating, always ready to try.',
+        'projects.cards.translate.tag':'🧠 AI / Tools',
+        'projects.cards.translate.text':'Chaotic English: run Google Translate one hundred times.',
+        'projects.cards.translate.link':'Enter translate100.lzray.com →',
+        'projects.cards.chat.tag':'🤖 Conversations',
+        'projects.cards.chat.text':'Demos and experiments powered by OpenRouter / Chat integrations.',
+        'projects.cards.chat.link':'Enter chatai.lzray.com →',
+        'projects.cards.wordmorph.tag':'🔤 Word games',
+        'projects.cards.wordmorph.text':'A stair-stepping English word morph puzzle.',
+        'projects.cards.wordmorph.link':'Enter wordmorph.lzray.com →',
+        'projects.cards.bullsc.tag':'🎯 Logic puzzles',
+        'projects.cards.bullsc.text':'Optimal assistant for the classic Bulls & Cows number game.',
+        'projects.cards.bullsc.link':'Enter bullsc.lzray.com →',
+        'projects.cards.online24.tag':'🃏 Algorithm play',
+        'projects.cards.online24.text':'Online 24-point battles with ranked difficulty experiments.',
+        'projects.cards.online24.link':'Enter online24.lzray.com →',
+        'projects.cards.blog.tag':'🤝 Blog',
+        'projects.cards.blog.text':'A personal blog sharing dev notes and creative sparks.',
+        'projects.cards.blog.link':'Visit blog.xernhe.com →',
+        'projects.cards.more.tag':'📬 More',
+        'projects.cards.more.text':'Space reserved for future links, docs, RSS feeds, and beyond.',
+        'projects.cards.more.link':'Coming soon…',
+        'outro.title':'Stay in sync',
+        'outro.desc':'New ideas and upgraded projects appear here first. Bookmark the hub or subscribe via RSS to stay up to date.',
+        'alerts.comingSoon':'Coming soon',
+        'language.menuLabel':'Change language'
+      },
+      ja:{
+        'hero.title':'ひらめきを自由に流そう',
+        'hero.desc':'LZRAY の実験プロジェクトやツールをひとつに集約。軽快で滑らか、テーマにも自動対応し、さらなるインスピレーションを引き出します。',
+        'hero.primary':'今すぐ探索 →',
+        'hero.secondary':'公式サイトへ',
+        'controls.scrollNext':'次のセクションへスクロール',
+        'controls.scrollHint':'スクロールして探索',
+        'hub.title':'LZRAY メインハブ',
+        'hub.desc':'集約された入口 · 軽快でスムーズ · ダーク／ライト対応 · 最終更新：<span data-date></span>',
+        'hub.sectionDesc':'実験的なプロダクトやクリエイティブツール、個人プロジェクトを一括管理し、体験と更新のリズムをそろえて、ひらめきの切り替えをスムーズにします。',
+        'hub.linksLabel':'サイトリンク',
+        'projects.title':'実験プロジェクト一覧',
+        'projects.desc':'AI 体験から言葉遊び、アルゴリズムチャレンジまで。継続的にアップデートし、すぐに使えます。',
+        'projects.cards.translate.tag':'🧠 AI / ツール',
+        'projects.cards.translate.text':'カオス英語：Google 翻訳を 100 回かける実験。',
+        'projects.cards.translate.link':'translate100.lzray.com へ →',
+        'projects.cards.chat.tag':'🤖 会話',
+        'projects.cards.chat.text':'OpenRouter / Chat 連携によるデモと実験。',
+        'projects.cards.chat.link':'chatai.lzray.com へ →',
+        'projects.cards.wordmorph.tag':'🔤 言葉ゲーム',
+        'projects.cards.wordmorph.text':'英単語の階段変換ミニゲーム。',
+        'projects.cards.wordmorph.link':'wordmorph.lzray.com へ →',
+        'projects.cards.bullsc.tag':'🎯 ロジック',
+        'projects.cards.bullsc.text':'数字当てゲーム「Bulls & Cows」をサポート。',
+        'projects.cards.bullsc.link':'bullsc.lzray.com へ →',
+        'projects.cards.online24.tag':'🃏 アルゴリズム',
+        'projects.cards.online24.text':'24 点計算バトルと難易度実験をオンラインで。',
+        'projects.cards.online24.link':'online24.lzray.com へ →',
+        'projects.cards.blog.tag':'🤝 ブログ',
+        'projects.cards.blog.text':'開発メモや創作アイデアを共有する個人ブログ。',
+        'projects.cards.blog.link':'blog.xernhe.com を見る →',
+        'projects.cards.more.tag':'📬 その他',
+        'projects.cards.more.text':'今後はリンク集やドキュメント、RSS などを掲載予定。',
+        'projects.cards.more.link':'準備中…',
+        'outro.title':'最新情報をキャッチ',
+        'outro.desc':'新しいひらめきも既存プロジェクトのアップデートも、まずはハブでチェック。ブックマークや RSS で最新情報をどうぞ。',
+        'alerts.comingSoon':'準備中です',
+        'language.menuLabel':'言語を切り替え'
+      }
+    };
+    const localeMap={zh:'zh-CN',en:'en-US',ja:'ja-JP'};
+    const languageLabels={zh:'中文',en:'English',ja:'日本語'};
+    const switcher=document.querySelector('[data-language-switcher]');
+    const heroSection=document.querySelector('.hero');
+    const languageButton=switcher?switcher.querySelector('[data-language-button]'):undefined;
+    const languageMenu=switcher?switcher.querySelector('[data-language-menu]'):undefined;
+    const languageLabel=switcher?switcher.querySelector('[data-language-label]'):undefined;
+    const languageOptions=switcher?switcher.querySelectorAll('[data-language-option]'):[];
+    const plannedLinks=document.querySelectorAll('[data-planned-link]');
+    const yearElement=document.getElementById('y');
+
+    const detectLanguage=()=>{
+      const lang=(navigator.language||navigator.userLanguage||'').toLowerCase();
+      if(lang.startsWith('zh')){return 'zh';}
+      if(lang.startsWith('ja')){return 'ja';}
+      return 'en';
+    };
+
+    const storedLanguage=(()=>{
+      try{
+        const value=localStorage.getItem('preferredLanguage');
+        if(value&&languages.includes(value)){
+          return value;
+        }
+      }catch(err){
+        console.warn('Unable to access localStorage', err);
+      }
+      return undefined;
+    })();
+
+    let currentLanguage=storedLanguage||detectLanguage();
+    if(!languages.includes(currentLanguage)){
+      currentLanguage='en';
+    }
+
+    const setMenuVisibility=(open)=>{
+      if(!languageButton||!languageMenu){return;}
+      languageButton.setAttribute('aria-expanded', String(open));
+      if(switcher){
+        switcher.dataset.open=open?'true':'false';
+      }
+      if(open){
+        languageMenu.hidden=false;
+      }else{
+        languageMenu.hidden=true;
+      }
+    };
+
+    const updateSwitcherVisibility=(visible)=>{
+      if(!switcher){return;}
+      if(visible){
+        switcher.classList.remove('is-hidden');
+      }else{
+        switcher.classList.add('is-hidden');
+        setMenuVisibility(false);
+      }
+    };
+
+    const applyLanguage=(lang)=>{
+      const strings=translations[lang]||translations.en;
+      document.querySelectorAll('[data-i18n]').forEach(element=>{
+        const key=element.dataset.i18n;
+        if(key&&strings[key]){
+          element.textContent=strings[key];
+        }
+      });
+      document.querySelectorAll('[data-i18n-template]').forEach(element=>{
+        const key=element.dataset.i18nTemplate;
+        if(key&&strings[key]){
+          element.innerHTML=strings[key];
+        }
+      });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach(element=>{
+        const key=element.dataset.i18nAriaLabel;
+        if(key&&strings[key]){
+          element.setAttribute('aria-label', strings[key]);
+        }
+      });
+
+      const dateTarget=document.querySelector('[data-date]');
+      if(dateTarget){
+        const formatted=new Date().toLocaleDateString(localeMap[lang]||'en-US',{year:'numeric',month:'2-digit',day:'2-digit'});
+        dateTarget.textContent=formatted;
+      }
+
+      if(languageLabel){
+        languageLabel.textContent=languageLabels[lang]||languageLabels.en;
+      }
+      if(languageButton){
+        const label=strings['language.menuLabel']||translations.en['language.menuLabel'];
+        languageButton.setAttribute('aria-label', label);
+      }
+
+      languageOptions.forEach(option=>{
+        option.setAttribute('aria-current', option.dataset.languageOption===lang?'true':'false');
+      });
+
+      currentLanguage=lang;
+    };
+
+    const persistLanguage=(lang)=>{
+      try{
+        localStorage.setItem('preferredLanguage', lang);
+      }catch(err){
+        console.warn('Unable to persist language preference', err);
+      }
+    };
+
+    if(yearElement){
+      yearElement.textContent=new Date().getFullYear();
+    }
+
+    applyLanguage(currentLanguage);
+
+    if(languageButton&&languageMenu){
+      setMenuVisibility(false);
+
+      languageButton.addEventListener('click',()=>{
+        const expanded=languageButton.getAttribute('aria-expanded')==='true';
+        setMenuVisibility(!expanded);
+      });
+
+      document.addEventListener('click',(event)=>{
+        if(!switcher){return;}
+        if(!switcher.contains(event.target)){
+          setMenuVisibility(false);
+        }
+      });
+
+      document.addEventListener('keydown',(event)=>{
+        if(event.key==='Escape'){
+          setMenuVisibility(false);
+        }
+      });
+
+      languageOptions.forEach(option=>{
+        option.addEventListener('click',()=>{
+          const lang=option.dataset.languageOption;
+          if(lang&&languages.includes(lang)){
+            applyLanguage(lang);
+            persistLanguage(lang);
+            setMenuVisibility(false);
+          }
+        });
+      });
+    }
+
+    if(heroSection){
+      updateSwitcherVisibility(true);
+      const heroObserver=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          updateSwitcherVisibility(entry.isIntersecting);
+        });
+      },{threshold:0.4});
+      heroObserver.observe(heroSection);
+    }else{
+      updateSwitcherVisibility(true);
+    }
+
+    plannedLinks.forEach(link=>{
+      link.addEventListener('click',(event)=>{
+        event.preventDefault();
+        const strings=translations[currentLanguage]||translations.en;
+        alert(strings['alerts.comingSoon']||translations.en['alerts.comingSoon']);
+      });
+    });
+
+    const panels=Array.from(document.querySelectorAll('[data-panel]'));
+    const nextButton=document.querySelector('[data-scroll-next]');
+    const reduceMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    document.body.classList.add('io-ready');
+    if(panels[0]){
+      panels[0].classList.add('in-view');
+    }
+
+    if(nextButton&&panels.length>1){
+      nextButton.addEventListener('click',()=>{
+        const target=panels[1];
+        if(target){
+          target.scrollIntoView({behavior:reduceMotionQuery.matches?'auto':'smooth',block:'start'});
+        }
+      });
+    }
+
+    let observer;
+    const stopObserver=()=>{
+      if(observer){
+        observer.disconnect();
+        observer=undefined;
+      }
+    };
+
+    const activateObserver=()=>{
+      stopObserver();
+      if(reduceMotionQuery.matches){
+        return;
+      }
+      observer=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+          }
+        });
+      },{threshold:0.35});
+      panels.forEach(panel=>observer.observe(panel));
+    };
+
+    const revealAllPanels=()=>{
+      stopObserver();
+      panels.forEach(panel=>panel.classList.add('in-view'));
+    };
+
+    const enableMotionAnimations=()=>{
+      panels.forEach(panel=>{
+        if(!panel.classList.contains('hero')){
+          panel.classList.remove('in-view');
+        }
+      });
+      activateObserver();
+    };
+
+    if(reduceMotionQuery.matches){
+      revealAllPanels();
+    }else{
+      enableMotionAnimations();
+    }
+
+    const onMotionPreferenceChange=(event)=>{
+      if(event.matches){
+        revealAllPanels();
+      }else{
+        document.body.classList.add('io-ready');
+        enableMotionAnimations();
+      }
+    };
+
+    if(typeof reduceMotionQuery.addEventListener==='function'){
+      reduceMotionQuery.addEventListener('change',onMotionPreferenceChange);
+    }else if(typeof reduceMotionQuery.addListener==='function'){
+      reduceMotionQuery.addListener(onMotionPreferenceChange);
+    }
+  </script>
+</body>
+</html>
